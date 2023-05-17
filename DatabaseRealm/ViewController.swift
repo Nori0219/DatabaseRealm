@@ -8,7 +8,7 @@
 import UIKit
 import RealmSwift
 
-class ViewController: UIViewController {
+class ViewController: UIViewController ,UITextViewDelegate, UITextFieldDelegate{
     
     @IBOutlet var titleTextField: UITextField!
     @IBOutlet var contentTextField: UITextField!
@@ -18,6 +18,10 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //テキストフィールド入力後にキーボードを閉じるようにする
+        titleTextField.delegate = self
+        contentTextField.delegate = self
         
         //Memo型の定数memoを初期化　readメソッドで取得したデータをmemoに保存する
         let memo: Memo? = read()
@@ -68,6 +72,11 @@ class ViewController: UIViewController {
             handler: nil
         ))
         present(alert, animated: true, completion: nil)
+        
+        //ボタン押すとキーボード閉じる
+        func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+            textField.resignFirstResponder()
+        }
         
     }
 }
